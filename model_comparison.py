@@ -8,7 +8,7 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import accuracy_score, roc_auc_score, classification_report
 
 # Load and prepare data
-df = pd.read_csv("data/heart 2.csv")
+df = pd.read_csv("data/heart_disease.csv")
 df = pd.get_dummies(df, drop_first=True)
 
 X = df.drop('HeartDisease', axis=1)

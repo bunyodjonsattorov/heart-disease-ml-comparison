@@ -5,7 +5,7 @@ from sklearn.metrics import accuracy_score, roc_auc_score, classification_report
 import pandas as pd
 
 # Load data
-df = pd.read_csv("data/heart 2.csv")
+df = pd.read_csv("data/heart_disease.csv")
 
 # Encode categorical features
 df = pd.get_dummies(df, drop_first=True)

@@ -1,107 +1,82 @@
-# Heart Disease Prediction Models
+# Heart disease classification — model comparison
 
-This project contains 3 beginner-friendly machine learning models for predicting heart disease using different algorithms.
+Benchmark of three classical classifiers on tabular heart-health indicators: logistic regression, random forest, and decision tree. Each script trains with held-out validation for hyperparameter search and reports metrics on a final test split.
 
-## Models Included
+**This repository is for research and education only. It is not medical advice or a clinical decision tool.**
 
-### 1. **Model 1: Logistic Regression** (`model1/train_model1.py`)
-- **Algorithm**: Linear classification
-- **Best for**: Understanding linear relationships
-- **Output**: Performance metrics + feature coefficients
-- **Color theme**: Blue
+## Highlights
 
-### 2. **Model 2: Random Forest** (`model2/train_model2.py`)
-- **Algorithm**: Ensemble of decision trees
-- **Best for**: Handling non-linear patterns
-- **Output**: Performance metrics + feature importance
-- **Color theme**: Green
+- Train/validation/test split (75% / 15% / 10%) with `random_state=42` for reproducibility
+- `GridSearchCV` on the training set with ROC-AUC as the selection metric
+- Standardized features before fitting (consistent with the comparison script)
+- Per-model scripts plus a single comparison entry point with a simple bar chart
 
-### 3. **Model 3: Decision Tree** (`model3/train_model3.py`)
-- **Algorithm**: Single decision tree
-- **Best for**: Understanding decision-making process
-- **Output**: Performance metrics + feature importance
-- **Color theme**: Orange
+## Repository layout
 
-## How to Run
-
-```bash
-# Run individual models
-python3 model1/train_model1.py
-python3 model2/train_model2.py
-python3 model3/train_model3.py
-
-# Run comprehensive model comparison
-python3 model_comparison.py
+```
+├── data/
+│   └── heart_disease.csv
+├── model1/train_model1.py    # Logistic regression
+├── model2/train_model2.py    # Random forest
+├── model3/train_model3.py    # Decision tree
+├── model_comparison.py       # All models + comparison plot
+├── requirements.txt
+└── README.md
 ```
 
-## Data Splitting
+## Setup
 
-All models use a proper train/validation/test split:
-- **Training set**: 75% (688 samples) - Used for model training
-- **Validation set**: 15% (138 samples) - Used for hyperparameter tuning
-- **Test set**: 10% (92 samples) - Used for final evaluation only
-
-## What Each Model Shows
-
-### 📊 **Output Included**:
-1. **Performance Metrics** - Accuracy, ROC-AUC, Precision, Recall, F1-Score
-2. **Feature Analysis** - Coefficients (Logistic) or Importance (Tree-based)
-3. **Classification Report** - Detailed precision/recall for each class
-4. **Hyperparameter Tuning** - Best parameters found via validation
-5. **Model Comparison** - Comprehensive analysis in `model_comparison.py`
-
-### 📈 **Performance Metrics**:
-- **Accuracy**: Overall correctness
-- **Precision**: How many predicted positives were actually positive
-- **Recall**: How many actual positives were correctly identified
-- **F1-Score**: Balance between precision and recall
-- **ROC-AUC**: Model's ability to distinguish between classes
-
-## Dataset
-
-- **Target Variable**: `HeartDisease` (0 = No Heart Disease, 1 = Heart Disease)
-- **Features**: Age, RestingBP, Cholesterol, FastingBS, MaxHR, Oldpeak, Sex, ChestPainType, ExerciseAngina, ST_Slope
-- **Data Source**: `data/heart 2.csv`
-
-## Requirements
+Python 3.10+ recommended.
 
 ```bash
-pip install pandas scikit-learn matplotlib
+python -m venv .venv
+source .venv/bin/activate   # Windows: .venv\Scripts\activate
+pip install -r requirements.txt
 ```
 
-## Why These Models Are Beginner-Friendly
+Run from the repository root so paths to `data/` resolve correctly.
 
-1. **No External Dependencies**: All use standard scikit-learn libraries
-2. **Concise Code**: Clean, readable code without complex visualizations
-3. **Clear Output**: Easy to understand performance metrics and feature analysis
-4. **Educational Comments**: Extensive explanations in the code
-5. **Consistent Structure**: All models follow the same pattern for easy comparison
+## Usage
 
-## Key Learning Points
+```bash
+python model1/train_model1.py
+python model2/train_model2.py
+python model3/train_model3.py
+python model_comparison.py
+```
 
-- **Logistic Regression**: Shows linear relationships and feature coefficients
-- **Random Forest**: Shows ensemble learning and feature importance
-- **Decision Tree**: Shows actual decision rules and tree structure
+## Data
 
-Each model demonstrates different aspects of machine learning, making this perfect for learning and understanding how different algorithms work!
+- **Target**: `HeartDisease` (0 = no heart disease, 1 = heart disease)
+- **Features** (after one-hot encoding of categoricals): age, blood pressure, cholesterol, fasting blood sugar, max heart rate, ST depression, sex, chest pain type, exercise angina, ST slope, and related engineered columns from `pandas.get_dummies(..., drop_first=True)`.
 
-## Model Comparison
+## Methodology (summary)
 
-The `model_comparison.py` script provides simple analysis:
+| Model               | Role                                      |
+|---------------------|-------------------------------------------|
+| Logistic regression | Linear decision boundary, interpretable coefficients |
+| Random forest       | Ensemble trees, non-linear interactions  |
+| Decision tree       | Single tree, rule-like structure         |
 
-### 📊 **What It Shows**:
-- **Performance Comparison**: Side-by-side accuracy and ROC-AUC
-- **Simple Chart**: Clean bar chart comparing all models
-- **Clear Rankings**: Which model performs best
-- **Key Insights**: Easy-to-understand conclusions
+Each training script prints accuracy, ROC-AUC, precision/recall/F1, and either coefficients or feature importances where applicable.
 
-### 🏆 **Performance Results**:
-1. **Logistic Regression**: ROC-AUC = 0.969, Accuracy = 90.2%
-2. **Random Forest**: ROC-AUC = 0.957, Accuracy = 91.3%
-3. **Decision Tree**: ROC-AUC = 0.908, Accuracy = 83.7%
+## Example results
 
-### 💡 **Key Insights**:
-- All models achieve >90% ROC-AUC (excellent performance)
-- Logistic Regression has best discrimination ability
-- Random Forest has highest accuracy
-- Decision Tree is most interpretable
+On the bundled dataset with the fixed split above, a typical run reports roughly:
+
+| Model               | ROC-AUC | Accuracy |
+|---------------------|---------|----------|
+| Logistic regression | ~0.97   | ~90%     |
+| Random forest       | ~0.96   | ~91%     |
+| Decision tree       | ~0.91   | ~84%     |
+
+Re-run the scripts locally for exact figures; small differences can appear with library version changes.
+
+## Suggested GitHub repository name
+
+Short and searchable options:
+
+- **`heart-disease-ml-comparison`** — clear and neutral (recommended)
+- **`tabular-heart-classification-benchmark`** — emphasizes tabular ML / benchmarking
+
+Rename the local folder to match when you create or rename the remote repository.
