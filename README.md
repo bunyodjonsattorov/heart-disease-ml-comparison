@@ -71,12 +71,3 @@ On the bundled dataset with the fixed split above, a typical run reports roughly
 | Decision tree       | ~0.91   | ~84%     |
 
 Re-run the scripts locally for exact figures; small differences can appear with library version changes.
-
-## Suggested GitHub repository name
-
-Short and searchable options:
-
-- **`heart-disease-ml-comparison`** — clear and neutral (recommended)
-- **`tabular-heart-classification-benchmark`** — emphasizes tabular ML / benchmarking
-
-Rename the local folder to match when you create or rename the remote repository.
